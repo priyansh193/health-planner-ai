@@ -1,0 +1,111 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+  output   = "../lib/generated/prisma"
+}
+
+datasource db {
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+}
+
+model User {
+  id            String    @id @default(uuid())
+  clerkUserId   String    @unique // clerk user id
+  email         String    @unique
+  name          String?
+  imageUrl      String?
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+  
+  country       String?
+  ageGroup      String?
+  gender        String?
+
+  countryInsight CountryInsight? @relation(fields: [country, ageGroup], references: [country, ageGroup])
+
+  dietCharts  DietChart[]
+}
+
+model CountryInsight {
+  country   String
+  ageGroup  String
+
+  id        String   @id @default(cuid())
+  users     User[]
+
+  averageLifeExpectancy     Float
+  aqi                        Int
+  aqiCategory                String
+  stepsRecommendationByAgeGroup Json[]  // [{ ageGroup: "18-25", steps: 8000 }]
+
+  RecommendedDailySleepByAgeGroup   Int 
+  nutritionNeeds            String[]
+  healthTips                String[]
+  healthTrends              String[]
+
+  @@unique([country, ageGroup]) // Unique combo, needed for referencing
+}
+
+enum DietaryPreference {
+  VEGETARIAN
+  NON_VEGETARIAN
+  VEGAN
+  EGGETARIAN
+}
+
+model DietChart {
+  id          String    @id @default(cuid())
+  userId      String    
+  user        User      @relation(fields: [userId], references: [id])
+  
+  name        String    
+  goalType    String    
+  dietaryPreference DietaryPreference @default(VEGETARIAN)  // Add this field
+  targetWeight Float?   
+  currentWeight Float   
+  duration    Int      
+ 
+  startDate   DateTime @default(now())
+  endDate     DateTime
+
+  // Daily meals for the week
+  monday      Json      // { breakfast: string, lunch: string, snacks: string, dinner: string }
+  tuesday     Json
+  wednesday   Json
+  thursday    Json
+  friday      Json
+  saturday    Json
+  sunday      Json
+  
+  calories    Int      // Daily calorie target
+  proteins    Int      // Daily protein target in grams
+  carbs       Int      // Daily carbs target in grams
+  fats        Int      // Daily fats target in grams
+  
+  progressUpdates ProgressUpdate[]
+
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@index([userId])
+}
+
+model ProgressUpdate {
+  id          String    @id @default(cuid())
+  chartId     String
+  dietChart   DietChart @relation(fields: [chartId], references: [id])
+  
+  date        DateTime  @default(now())
+  completed   Boolean   @default(false)  // Did they follow the diet today?
+
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@unique([chartId, date])
+}

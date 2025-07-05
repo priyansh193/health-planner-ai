@@ -61,9 +61,16 @@ export async function updateUser(data) {
   }
 }
 
+
 export async function getUserOnboardingStatus() {
   const { userId } = await auth();
   if (!userId) throw new Error("Unauthorized");
+
+  const user = await db.user.findUnique({
+    where: { clerkUserId: userId },
+  });
+
+  if (!user) throw new Error("User not found");
 
   try {
     const user = await db.user.findUnique({
@@ -75,16 +82,8 @@ export async function getUserOnboardingStatus() {
       },
     });
 
-    // If user doesn't exist in database yet, they are not onboarded
-    if (!user) {
-      return {
-        isOnboarded: false,
-      };
-    }
-
-    // User exists, check if they have completed onboarding (have country set)
     return {
-      isOnboarded: !!user.country,
+      isOnboarded: !!user?.country,
     };
   } catch (error) {
     console.error("Error checking onboarding status:", error);

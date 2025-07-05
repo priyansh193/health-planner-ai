@@ -30,7 +30,7 @@ export default function RootLayout({ children }) {
         <body className={inter.className}>
           <ThemeProvider
             attribute="class"
-            defaultTheme="light"
+            defaultTheme="dark"
             enableSystem
             disableTransitionOnChange
           >
@@ -39,8 +39,8 @@ export default function RootLayout({ children }) {
             <main className="min-h-screen">{children}</main>
             <footer className="bg-muted/50 py-12">
               <div className="container mx-auto px-4 text-center text-gray-200">
-                <p>Powered by Next.js</p>
-                <p>© 2025 Your Company Name</p>
+                <p>Developer - Priyansh Gupta</p>
+                <p>© 2025 Health-Planner AI</p>
               </div>
             </footer>
           </ThemeProvider>

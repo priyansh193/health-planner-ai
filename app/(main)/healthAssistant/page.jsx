@@ -27,7 +27,7 @@ export default function HealthAssistant() {
   const [symptomDuration, setSymptomDuration] = useState(0);
 
   const [messages, setMessages] = useState([
-    { from: 'assistant', text: '👋 Hello! I\'m your AI Health Assistant. To get started, please provide your Age, Gender, Weight, Symptoms, and Symptoms Duration using the form below.' }
+    { from: 'assistant', text: 'Hello! I\'m your AI Health Assistant. To get started, please provide your Age, Gender, Weight, Symptoms, and Symptoms Duration using the form below.' }
   ]);
   const [subscribed, setSubscribed] = useState(false);
   const chatEndRef = useRef(null);
@@ -59,7 +59,7 @@ export default function HealthAssistant() {
       <div className="flex-1 overflow-y-auto p-4 bg-muted/10 dark:bg-muted/30 rounded-lg space-y-3">
         {messages.map((msg, idx) => (
           <div key={idx} className={`flex ${msg.from === 'assistant' ? 'justify-start' : 'justify-end'}`}>
-            <div className={`px-4 py-2 rounded-lg break-words whitespace-pre-wrap max-w-[50%]
+            <div className={`px-4 py-2 rounded-lg break-words whitespace-pre-wrap max-w-[70%]
               ${msg.from === 'assistant' ? 'bg-card text-card-foreground' : 'bg-primary text-primary-foreground'}`}>  
               {msg.text}
             </div>
@@ -83,7 +83,7 @@ export default function HealthAssistant() {
                   id="age"
                   type="number"
                   value={age}
-                  onChange={e => setAge(Math.max(0, Math.min(120, parseInt(e.target.value) || 0)))}
+                  onChange={e => setAge(parseInt(e.target.value))}
                   className="w-full"
                   min={0}
                   max={120}
@@ -110,9 +110,8 @@ export default function HealthAssistant() {
                   id="weight"
                   type="number"
                   value={weight}
-                  onChange={e => setWeight(Math.max(5, Math.min(150, parseInt(e.target.value) || 0)))}
+                  onChange={e => setWeight(parseInt(e.target.value))}
                   className="w-full"
-                  min={5}
                   max={150}
                   required
                 />
@@ -136,9 +135,8 @@ export default function HealthAssistant() {
                   id="symptomDuration"
                   type="number"
                   value={symptomDuration}
-                  onChange={e => setSymptomDuration(Math.max(0, Math.min(365, parseInt(e.target.value) || 0)))}
+                  onChange={e => setSymptomDuration(parseInt(e.target.value))}
                   className="w-full"
-                  min={0}
                   max={365}
                   required
                 />

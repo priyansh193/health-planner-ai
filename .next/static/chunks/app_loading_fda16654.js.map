@@ -1,0 +1,6 @@
+{
+  "version": 3,
+  "sources": [],
+  "sections": [
+    {"offset": {"line": 7, "column": 0}, "map": {"version":3,"sources":["file:///Users/dayal/Documents/GitHub/heath-planner-ai/app/loading.js"],"sourcesContent":["\"use client\"\n\nexport default function Loading() {\n  return (\n    <div className=\"fixed inset-0 flex items-center justify-center bg-background/50 z-50\">\n      <div className=\"h-12 w-12 border-4 border-primary border-t-transparent rounded-full animate-spin\"></div>\n    </div>\n  );\n}\n"],"names":[],"mappings":";;;;AAAA;;AAEe,SAAS;IACtB,qBACE,6LAAC;QAAI,WAAU;kBACb,cAAA,6LAAC;YAAI,WAAU;;;;;;;;;;;AAGrB;KANwB","debugId":null}}]
+}

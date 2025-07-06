@@ -48,7 +48,7 @@ const Header = () => {
                 <DropdownMenuItem>
                   <Link href='/diet' className='flex items-center gap-2'>
                     <FileText className='h-4 w-4' />
-                    <span className='hidden md:block'>Your Diet-Plans</span>
+                    Your Diet-Plans
                   </Link>
                 </DropdownMenuItem>
                 <DropdownMenuItem>
